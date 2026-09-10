@@ -18,11 +18,11 @@ Word / PDF への変換まで、すべてこのプラグインの手順で作っ
 
 ### 1枚HTML（zukai-onepager の出力）
 
-![表紙と目次](docs/images/sample-html-cover.png)
+![表紙と目次](https://raw.githubusercontent.com/shngmsw/explainer-kit/assets/images/sample-html-cover.png)
 
 章ごとに「言いたいこと1つ」と図解1枚を置き、専門語は使った場所で開きます。
 
-![第1章。見出し・図解・用語ボックス](docs/images/sample-html-section.png)
+![第1章。見出し・図解・用語ボックス](https://raw.githubusercontent.com/shngmsw/explainer-kit/assets/images/sample-html-section.png)
 
 ### 図解（インラインSVG）
 
@@ -31,14 +31,14 @@ Word / PDF への変換まで、すべてこのプラグインの手順で作っ
 登場要素（依頼・zukai-onepager・1枚HTML・html-to-deliverable・lint ゲート）には
 1色ずつ割り当て、本文と図で同じ色を使います。
 
-![サンプルの図解6枚](docs/images/sample-figures.png)
+![サンプルの図解6枚](https://raw.githubusercontent.com/shngmsw/explainer-kit/assets/images/sample-figures.png)
 
 ### Word / PDF（html-to-deliverable の出力）
 
 同じ HTML から `html2docx.py` と `html2pdf.sh` で作った Word と PDF の同じ章です。
 図は Chrome で画像化して埋め込まれ、章ごとに改ページされます。
 
-![Word と PDF の同じページ](docs/images/sample-deliverables.png)
+![Word と PDF の同じページ](https://raw.githubusercontent.com/shngmsw/explainer-kit/assets/images/sample-deliverables.png)
 
 Word のフォント指定は游ゴシック・游明朝です。上のプレビューはそれらが無い環境で描画したため
 Noto フォントで代替表示しています。
