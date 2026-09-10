@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>explainer-kit の説明資料</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --req:#1e40af; --zukai:#b45309; --html:#166534; --deliver:#6b21a8; --lint:#9d174d;
+  --req-bg:#dbeafe; --zukai-bg:#fef3c7; --html-bg:#d1fae5; --deliver-bg:#f3e8ff; --lint-bg:#fce7f3;
+  --ink:#232a31; --sub:#55606b; --accent:#2e5e8c; --rule:#e3ddd0; --paper:#f3eee4;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','Meiryo','IPAPGothic',sans-serif;
+  font-size:15.5px; line-height:1.9;
+}
+.sheet{
+  max-width:860px; margin:36px auto; background:#fff; padding:56px 64px;
+  box-shadow:0 2px 18px rgba(60,50,35,.10); border:1px solid #e8e2d6;
+}
+h1,h2,h3,.num,.cover .to{
+  font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho','IPAPMincho',serif;
+  font-weight:700;
+}
+
+/* 表紙 */
+.cover{border-bottom:1px solid var(--rule); padding-bottom:34px; margin-bottom:6px}
+.cover .to{font-size:13.5px; color:var(--accent); letter-spacing:.06em; margin-bottom:18px}
+.cover h1{font-size:29px; line-height:1.6; margin:0 0 22px; letter-spacing:.02em}
+.cover .meta{font-size:13px; color:var(--sub); line-height:2; margin-bottom:30px}
+.toc{margin:0; padding:18px 22px; list-style:none; background:#faf8f3; border:1px solid var(--rule)}
+.toc li{font-size:14px; padding:3px 0}
+.toc a{color:var(--ink); text-decoration:none; border-bottom:1px solid #d8d0be}
+.toc a:hover{color:var(--accent)}
+.toc{counter-reset:toc}
+.toc li{counter-increment:toc}
+.toc li a::before{content:counter(toc) ". "}
+
+/* 章 */
+section{border-bottom:1px solid var(--rule); padding:34px 0}
+section:last-of-type{border-bottom:none}
+h2{font-size:21px; line-height:1.55; margin:0 0 10px; letter-spacing:.02em}
+.num{
+  display:inline-block; width:27px; height:27px; line-height:25px; text-align:center;
+  border:1.5px solid var(--accent); border-radius:50%; color:var(--accent);
+  font-size:14px; margin-right:11px; vertical-align:2px;
+}
+h3{font-size:16px; margin:26px 0 8px}
+p{margin:0 0 15px}
+p.lead{color:var(--sub); font-size:14.5px; margin-bottom:4px}
+ul,ol{margin:0 0 15px; padding-left:1.5em}
+li{margin-bottom:5px}
+
+/* 要素の呼び名 */
+.c-req{color:var(--req);font-weight:700}
+.c-zukai{color:var(--zukai);font-weight:700}
+.c-html{color:var(--html);font-weight:700}
+.c-deliver{color:var(--deliver);font-weight:700}
+.c-lint{color:var(--lint);font-weight:700}
+
+/* 図 */
+figure{margin:28px 0; padding:18px; border:1px solid var(--rule); border-radius:8px; background:#fff; text-align:center}
+figure svg{display:block; width:100%; height:auto; margin:0 auto; max-width:100%}
+svg{max-width:100%; height:auto}
+figcaption{font-size:13px; color:var(--sub); text-align:center; margin-top:12px; line-height:1.7}
+
+/* 囲み */
+.gloss{
+  display:block; margin:14px 0; padding:11px 15px; background:#f5f5f3;
+  border-left:3px solid #8a929a; font-size:14px; line-height:1.85; color:#3a434c;
+}
+.verdict{margin:22px 0; padding:15px 18px; background:#edf3f8; border-left:4px solid var(--accent)}
+.verdict .t{font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho','IPAPMincho',serif;
+  font-weight:700; font-size:15.5px; color:var(--accent); margin-bottom:5px}
+.verdict p{margin:0; font-size:14.5px}
+.cards{display:flex; flex-wrap:wrap; gap:14px; margin:20px 0}
+.card{flex:1 1 220px; padding:13px 15px; background:#fbfaf7; border:1px solid var(--rule)}
+.card .t{font-weight:700; font-size:14.5px; margin-bottom:5px}
+.card p{margin:0; font-size:14px; line-height:1.85}
+
+/* 表 */
+table{width:100%; border-collapse:collapse; margin:18px 0; font-size:14px}
+th,td{border:1px solid var(--rule); padding:8px 11px; text-align:left; vertical-align:top; line-height:1.8}
+th{background:#f1f2ed; font-weight:700; white-space:nowrap}
+
+pre{
+  margin:12px 0; padding:12px 14px; background:#f5f5f3; border:1px solid var(--rule);
+  font-family:'SFMono-Regular',Consolas,'Courier New',monospace; font-size:13px; line-height:1.85;
+  overflow-x:auto;
+}
+.foot{margin-top:30px; font-size:12.5px; color:var(--sub); text-align:center}
+
+@media (max-width:720px){
+  .sheet{margin:0; padding:24px 20px; border:none; box-shadow:none}
+  .cover h1{font-size:23px}
+  h2{font-size:19px}
+}
+
+@media print{
+  @page{size:A4; margin:16mm 15mm}
+  body{font-size:10.5pt; line-height:1.75; background:#fff}
+  .sheet{max-width:none; padding:0; margin:0; box-shadow:none; border:none}
+
+  section{border-bottom:none; padding:18px 0; break-inside:auto}
+  section+section{break-before:page}
+  .cover{break-after:page; padding-top:0; border-bottom:none}
+
+  h2,h3{break-after:avoid}
+  figure,table,.card,.gloss,.verdict,pre{break-inside:avoid}
+  figcaption{break-before:avoid}
+  tr{break-inside:avoid}
+
+  .toc a{text-decoration:none; border-bottom:none}
+}
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+<div class="cover">
+  <div class="to">宛先: explainer-kit を初めて見る方へ</div>
+  <h1>詳しくない人に読ませる資料が、<br>ひとつの依頼から出来上がるまで</h1>
+  <div class="meta">
+    explainer-kit の説明資料<br>
+    この資料自体が explainer-kit で作られています<br>
+    2026年9月
+  </div>
+  <ul class="toc">
+    <li><a href="#s1">「図解して」と頼むと何が起きるのか</a></li>
+    <li><a href="#s2">誰に向けて書くのか</a></li>
+    <li><a href="#s3">1枚HTMLができるまで</a></li>
+    <li><a href="#s4">図が崩れていないかを機械で確かめる</a></li>
+    <li><a href="#s5">Word・PDF・Google ドキュメントに変える</a></li>
+    <li><a href="#s6">直すときは HTML だけ直す</a></li>
+    <li><a href="#s7">用語集</a></li>
+  </ul>
+</div>
+
+<section id="s1">
+<h2><span class="num">1</span>「図解して」と頼むと何が起きるのか</h2>
+<p class="lead">「この仕組みを、詳しくない人にもわかるように図解して」。この一言から Word や PDF の資料が出来上がるまでを、一続きで追いかけます。</p>
+
+<figure>
+<svg viewBox="0 0 760 273" width="760" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="273" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', 'Noto Sans CJK JP', 'IPAPGothic', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', system-ui, sans-serif; }
+  </style>
+  <defs>
+    <marker id="arrow-blue-f1" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrow-orange-f1" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrow-green-f1" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#22c55e"/>
+    </marker>
+    <marker id="arrow-purple-f1" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#a855f7"/>
+    </marker>
+    <marker id="arrow-red-f1" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#ef4444"/>
+    </marker>
+  </defs>
+
+  <!-- 1. dashed group boxes -->
+  <!-- explainer-kit: x=201, y=22, w=361, h=177, right=562, bottom=199 -->
+  <rect x="201" y="22" width="361" height="177" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6,4"/>
+  <!-- deliverables: x=580, y=52, w=160, h=199, right=740, bottom=251 -->
+  <rect x="580" y="52" width="160" height="199" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6,4"/>
+
+  <!-- 2. connectors -->
+  <!-- 依頼(right=190) -> zukai-onepager(left=215) : 190+5=195 -> 215-11=204 -->
+  <path d="M195,76 L 204,76" fill="none" stroke="#3b82f6" marker-end="url(#arrow-blue-f1)"/>
+  <!-- zukai-onepager(right=385) -> 1枚HTML(left=410) : 390 -> 399 -->
+  <path d="M390,76 L 399,76" fill="none" stroke="#f59e0b" marker-end="url(#arrow-orange-f1)"/>
+  <!-- 1枚HTML -> html-to-deliverable : down, 103+5=108 -> 131-11=120 -->
+  <path d="M479,108 L 479,120" fill="none" stroke="#22c55e" marker-end="url(#arrow-green-f1)"/>
+  <!-- zukai-onepager -> lint ゲート : down, 108 -> 120 -->
+  <path d="M300,108 L 300,120" fill="none" stroke="#ef4444" marker-end="url(#arrow-red-f1)"/>
+  <!-- html-to-deliverable(right=548) -> Word : 553 -> 592-11=581, cp2.y=end.y -->
+  <path d="M553,148 C 570,148 571,97 581,97" fill="none" stroke="#a855f7" marker-end="url(#arrow-purple-f1)"/>
+  <!-- html-to-deliverable -> PDF : straight -->
+  <path d="M553,158 L 581,158" fill="none" stroke="#a855f7" marker-end="url(#arrow-purple-f1)"/>
+  <!-- html-to-deliverable -> Google ドキュメント -->
+  <path d="M553,168 C 570,168 571,219 581,219" fill="none" stroke="#a855f7" marker-end="url(#arrow-purple-f1)"/>
+
+  <!-- 3. boxes and text -->
+  <!-- 依頼: x=20, y=49, w=170, h=54, right=190, center=105 -->
+  <rect x="20" y="49" width="170" height="54" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="105" y="71" font-size="12" fill="#1e40af" text-anchor="middle">依頼</text>
+  <text x="105" y="89" font-size="12" fill="#1e40af" text-anchor="middle">あなたの一言と対象の資料</text>
+
+  <text x="215" y="36" font-size="11" fill="#64748b">explainer-kit（このプラグイン）</text>
+  <text x="592" y="66" font-size="11" fill="#64748b">納品形式（派生物）</text>
+
+  <!-- zukai-onepager: x=215, y=49, w=170, h=54, right=385, center=300 -->
+  <rect x="215" y="49" width="170" height="54" rx="6" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="300" y="71" font-size="12" fill="#b45309" text-anchor="middle">zukai-onepager</text>
+  <text x="300" y="89" font-size="12" fill="#b45309" text-anchor="middle">図解つきの1枚HTMLを書く</text>
+
+  <!-- 1枚HTML: x=410, y=49, w=138, h=54, right=548, center=479 -->
+  <rect x="410" y="49" width="138" height="54" rx="6" fill="#d1fae5" stroke="#22c55e"/>
+  <text x="479" y="80" font-size="12" fill="#166534" text-anchor="middle">1枚HTML（正本）</text>
+
+  <!-- lint ゲート: x=215, y=131, w=170, h=54 -->
+  <rect x="215" y="131" width="170" height="54" rx="6" fill="#fce7f3" stroke="#ec4899"/>
+  <text x="300" y="153" font-size="12" fill="#9d174d" text-anchor="middle">lint ゲート</text>
+  <text x="300" y="171" font-size="12" fill="#9d174d" text-anchor="middle">図が崩れていないか検査</text>
+
+  <!-- html-to-deliverable: x=410, y=131, w=138, h=54, right=548 -->
+  <rect x="410" y="131" width="138" height="54" rx="6" fill="#f3e8ff" stroke="#a855f7"/>
+  <text x="479" y="153" font-size="12" fill="#6b21a8" text-anchor="middle">html-to-deliverable</text>
+  <text x="479" y="171" font-size="12" fill="#6b21a8" text-anchor="middle">納品形式に清書する</text>
+
+  <!-- deliverables: x=592, w=136, center=660 -->
+  <rect x="592" y="79" width="136" height="36" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="660" y="101" font-size="12" fill="#1e293b" text-anchor="middle">Word（docx）</text>
+  <rect x="592" y="140" width="136" height="36" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="660" y="162" font-size="12" fill="#1e293b" text-anchor="middle">PDF</text>
+  <rect x="592" y="201" width="136" height="36" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="660" y="223" font-size="12" fill="#1e293b" text-anchor="middle">Google ドキュメント</text>
+
+  <!-- lint arrow label -->
+  <text x="334" y="120" font-size="10" fill="#9d174d" text-anchor="middle">図を検査</text>
+</svg>
+<figcaption>図1　依頼から納品物まで。図の検査は zukai-onepager の中で行われる</figcaption>
+</figure>
+
+<p>まず、この道具が置かれている場所から説明します。舞台は Claude Code です。</p>
+<span class="gloss"><strong>Claude Code</strong>：文章で書いた指示を受け取り、調べ物やファイルの作成といった作業を代行するツール。もともと開発者向けに作られたもので、手元のパソコンやブラウザ上で動きます。</span>
+
+<p>Claude Code には、特定の作業のやり方をあらかじめ書き留めておく仕組みがあります。これをスキルと呼びます。</p>
+<span class="gloss"><strong>スキル</strong>：「こういう依頼を受けたら、この手順で進める」と書いてある手順書。該当する依頼が来たときにだけ読み込まれます。</span>
+<span class="gloss"><strong>プラグイン</strong>：関連するスキルをまとめた詰め合わせ。1回の導入操作で、中のスキルがすべて使えるようになります。</span>
+
+<p>explainer-kit は、2つのスキルを収めたプラグインです。<span class="c-req">依頼</span>を受け取るのは<span class="c-zukai">zukai-onepager</span>（図解して書く係）で、これが<span class="c-html">1枚HTML</span>を作ります。そのあと<span class="c-deliver">html-to-deliverable</span>（納品用に清書する係）が、Word・PDF・Google ドキュメントに変換します。</p>
+
+<p>途中に<span class="c-lint">lint ゲート</span>（図の検査）がありますが、これは独立した工程ではなく zukai-onepager の中の一段です。図が仕上がった時点で機械が寸法を検査し、合格しなければ先へ進みません。</p>
+
+<div class="verdict">
+  <div class="t">覚えるのは1本の流れだけ</div>
+  <p>依頼 → zukai-onepager → 1枚HTML → html-to-deliverable → 納品物。以降の章は、この流れのどこを説明しているのかを確かめながら読んでください。</p>
+</div>
+</section>
+
+<section id="s2">
+<h2><span class="num">2</span>誰に向けて書くのか</h2>
+<p class="lead">この道具が想定する読者は「詳しくないが、仕事はできる大人」です。誰に向けて書くかが決まると、書き方の原則も決まります。</p>
+
+<figure>
+<svg viewBox="0 0 640 275" width="640" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', 'Noto Sans CJK JP', 'IPAPGothic', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', system-ui, sans-serif; }
+  </style>
+  <rect x="0" y="0" width="640" height="275" fill="#ffffff"/>
+
+  <!-- 点線グループ枠: x=25..615, y=20..171 -->
+  <rect x="25" y="20" width="590" height="151" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6,4"/>
+  <text x="35" y="34" font-size="11" fill="#64748b">読者の三分類</text>
+
+  <!-- 中央の箱のラベル: 箱上端 y=66 の 12px 上 -->
+  <text x="320" y="54" font-size="11" fill="#1e40af" text-anchor="middle">この資料が狙う読者</text>
+
+  <!-- 上段左: x=40..200, y=66..120 -->
+  <rect x="40" y="66" width="160" height="54" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="120" y="97" font-size="12" fill="#64748b" text-anchor="middle">その分野の専門家</text>
+  <text x="120" y="138" font-size="10" fill="#64748b" text-anchor="middle">説明が要らない</text>
+
+  <!-- 上段中央: x=225..415, y=66..120 -->
+  <rect x="225" y="66" width="190" height="54" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="320" y="88" font-size="12" fill="#1e40af" text-anchor="middle">その分野に詳しくないが</text>
+  <text x="320" y="106" font-size="12" fill="#1e40af" text-anchor="middle">仕事はできる大人</text>
+  <text x="320" y="138" font-size="10" fill="#64748b" text-anchor="middle">他部署の担当者・クライアント窓口</text>
+  <text x="320" y="153" font-size="10" fill="#64748b" text-anchor="middle">着任したての管理職</text>
+
+  <!-- 上段右: x=440..600, y=66..120 -->
+  <rect x="440" y="66" width="160" height="54" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="520" y="88" font-size="12" fill="#64748b" text-anchor="middle">予備知識も読解力も</text>
+  <text x="520" y="106" font-size="12" fill="#64748b" text-anchor="middle">期待できない読者</text>
+  <text x="520" y="138" font-size="10" fill="#64748b" text-anchor="middle">この資料の対象外</text>
+
+  <!-- 下段左: x=25..310, y=196..252 -->
+  <rect x="25" y="196" width="285" height="56" rx="6" fill="#d1fae5" stroke="#22c55e"/>
+  <text x="167.5" y="219" font-size="12" fill="#166534" text-anchor="middle">噛み砕くのは内容</text>
+  <text x="167.5" y="237" font-size="10" fill="#166534" text-anchor="middle">専門語は使った場所で開き、用語集にも載せる</text>
+
+  <!-- 下段右: x=335..615, y=196..252 -->
+  <rect x="335" y="196" width="280" height="56" rx="6" fill="#fce7f3" stroke="#ec4899"/>
+  <text x="475" y="219" font-size="12" fill="#9d174d" text-anchor="middle">言葉づかいは噛み砕かない</text>
+  <text x="475" y="237" font-size="10" fill="#9d174d" text-anchor="middle">フリガナ・幼児語・絵本調は使わない</text>
+</svg>
+<figcaption>図2　読者像から3つの原則が導かれる。噛み砕くのは内容であって、言葉づかいではない</figcaption>
+</figure>
+
+<p>想定読者は、その領域の専門家ではないが、読解力と業務経験はある人です。他部署の担当者、クライアントの窓口、着任したばかりの管理職あたり。前提知識は無いが、説明されれば理解できる相手だと考えます。</p>
+
+<p>この読者像から、<span class="c-zukai">zukai-onepager</span>の3つの原則が導かれます。</p>
+
+<div class="cards">
+  <div class="card" style="border-left:4px solid var(--zukai)">
+    <div class="t">1. 難しさは説明で解く</div>
+    <p>専門語やカタカナ語は、使ったその場で1行開き、巻末の用語集にも載せます。言葉づかいを子供向けにするのではなく、内容の側を噛み砕きます。フリガナや絵文字は使いません。</p>
+  </div>
+  <div class="card" style="border-left:4px solid var(--zukai)">
+    <div class="t">2. 図解は各章に置く</div>
+    <p>冒頭に1枚だけ図を置いて、あとを文字の壁にしません。図はその章の主張そのものを描きます。1つの章で言うことは1つに絞ります。</p>
+  </div>
+  <div class="card" style="border-left:4px solid var(--zukai)">
+    <div class="t">3. 器は1枚、語りは毎回設計する</div>
+    <p>出来上がりの形（自己完結した<span class="c-html">1枚HTML</span>）は固定しますが、章立てと語り口は題材ごとに考え直します。</p>
+  </div>
+</div>
+
+<p>この資料が「1件の<span class="c-req">依頼</span>を追いかける」という語り口をとっているのも、3番目の原則の結果です。決まった型に流し込んだのではなく、この題材にはこの順序が一番腑に落ちると判断して選んでいます。</p>
+
+<div class="verdict">
+  <div class="t">噛み砕くのは内容であって、言葉づかいではない</div>
+  <p>無説明の専門語で読者を置き去りにするのも、幼児向けの語り口にするのも、どちらも失敗です。社外にそのまま出せる文体を保ちます。</p>
+</div>
+</section>
+
+<section id="s3">
+<h2><span class="num">3</span>1枚HTMLができるまで</h2>
+<p class="lead">依頼を受けてから 1枚HTML が出来上がるまでは、7つの段階を順に進みます。いきなり書き始めることはしません。</p>
+
+<figure>
+<svg viewBox="0 0 620 484" width="620" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="620" height="484" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', 'Noto Sans CJK JP', 'IPAPGothic', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', system-ui, sans-serif; }
+  </style>
+  <defs>
+    <marker id="arrow-orange-f3" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrow-green-f3" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#22c55e"/>
+    </marker>
+    <marker id="arrow-red-f3" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#ef4444"/>
+    </marker>
+  </defs>
+
+  <!-- outer card: x=20..600, y=20..464 -->
+  <rect x="20" y="20" width="580" height="444" rx="10" fill="#ffffff" stroke="#94a3b8"/>
+
+  <!-- boxes: x=139, width=262, right edge=401, height=36, pitch=63, center x=270 -->
+  <!-- 1 y=35..71 / 2 y=98..134 / 3 y=161..197 / 4 y=224..260 / 5 y=287..323 / 6 y=350..386 / 7 y=413..449 -->
+
+  <path d="M270,76 L 270,87" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrow-orange-f3)"/>
+  <path d="M270,139 L 270,150" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrow-orange-f3)"/>
+  <path d="M270,202 L 270,213" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrow-orange-f3)"/>
+  <path d="M270,265 L 270,276" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrow-orange-f3)"/>
+  <path d="M270,328 L 270,339" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrow-orange-f3)"/>
+  <path d="M270,391 L 270,402" fill="none" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arrow-green-f3)"/>
+
+  <rect x="139" y="35" width="262" height="36" rx="6" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="270" y="57" font-size="12" fill="#b45309" text-anchor="middle">1. 対象を理解する</text>
+  <text x="423" y="57" font-size="10" fill="#64748b" text-anchor="start">コード・資料・会話を読む</text>
+
+  <rect x="139" y="98" width="262" height="36" rx="6" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="270" y="120" font-size="12" fill="#b45309" text-anchor="middle">2. 登場要素に呼び名と色を決める</text>
+  <text x="423" y="120" font-size="10" fill="#64748b" text-anchor="start">1要素1色。図と本文で同じ色</text>
+
+  <rect x="139" y="161" width="262" height="36" rx="6" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="270" y="183" font-size="12" fill="#b45309" text-anchor="middle">3. 語りの順番を設計する</text>
+  <text x="423" y="183" font-size="10" fill="#64748b" text-anchor="start">時系列・1日の流れ・1件の追跡など</text>
+
+  <rect x="139" y="224" width="262" height="36" rx="6" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="270" y="246" font-size="12" fill="#b45309" text-anchor="middle">4. 図を1枚ずつ描く</text>
+  <text x="423" y="246" font-size="10" fill="#64748b" text-anchor="start">図ごとにサブエージェントへ委任</text>
+
+  <rect x="139" y="287" width="262" height="36" rx="6" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="270" y="309" font-size="12" fill="#b45309" text-anchor="middle">5. HTMLに組む</text>
+  <text x="423" y="309" font-size="10" fill="#64748b" text-anchor="start">図は HTML に直接埋め込む</text>
+
+  <rect x="139" y="350" width="262" height="36" rx="6" fill="#fce7f3" stroke="#ec4899"/>
+  <text x="270" y="372" font-size="12" fill="#9d174d" text-anchor="middle">6. lint ゲートを通す</text>
+  <text x="423" y="372" font-size="10" fill="#64748b" text-anchor="start">エラー0・ワーニング0まで直す</text>
+
+  <rect x="139" y="413" width="262" height="36" rx="6" fill="#d1fae5" stroke="#22c55e"/>
+  <text x="270" y="435" font-size="12" fill="#166534" text-anchor="middle">7. 検品して完成</text>
+  <text x="423" y="435" font-size="10" fill="#64748b" text-anchor="start">用語集・色の一致を確認</text>
+
+  <!-- loop back 6 -> 5 (topmost). leftmost of curve x=110.75 -->
+  <path d="M134,368 C 104,368 104,305 128,305" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrow-red-f3)"/>
+  <text x="95" y="332" font-size="10" fill="#9d174d" text-anchor="end">指摘があれば</text>
+  <text x="95" y="347" font-size="10" fill="#9d174d" text-anchor="end">直す</text>
+</svg>
+<figcaption>図3　zukai-onepager の7段階。図はサブエージェントが1枚ずつ並行して描く</figcaption>
+</figure>
+
+<p><span class="c-req">依頼</span>を受けた<span class="c-zukai">zukai-onepager</span>の進め方は次の通りです。</p>
+<ol>
+  <li>対象を理解する（コードや資料を読む。わからないまま書かない）</li>
+  <li>登場する要素の呼び名と色を決める</li>
+  <li>語り（見せる順番）と、各章の言いたいこと1つを設計する</li>
+  <li>図を1枚ずつ描く</li>
+  <li>HTML に組み上げる</li>
+  <li><span class="c-lint">lint ゲート</span>を通す</li>
+  <li>検品チェックリストで最終確認する</li>
+</ol>
+
+<p>4番目の作図は、図ごとに別の担当を立てて並行して進めます。</p>
+<span class="gloss"><strong>サブエージェント</strong>：本体とは別に立てられる作業担当。指示を渡すと、その1件だけを引き受けて結果を返します。図のように互いに独立した成果物は、枚数分をまとめて同時に進められます。</span>
+
+<p>5番目で出来上がるのが<span class="c-html">1枚HTML</span>です。</p>
+<span class="gloss"><strong>1枚HTML</strong>：本文・表・図をすべて1つのファイルに収めた資料。ブラウザで開くだけで読め、他のファイルを必要としません。</span>
+<span class="gloss"><strong>インラインSVG</strong>：図を画像ファイルとして外に置かず、線と文字の指定として HTML の中に直接書き込んだもの。拡大しても粗くならず、寸法を後から機械で検査できます。</span>
+
+<h3>「登場要素ごとに1色」の実例</h3>
+<p>2番目の段階でやっている色決めは、この資料自身が実例になっています。<span class="c-req">依頼</span>は青、<span class="c-zukai">zukai-onepager</span>は橙、<span class="c-html">1枚HTML</span>は緑、<span class="c-deliver">html-to-deliverable</span>は紫、<span class="c-lint">lint ゲート</span>は桃。本文の文字色と図の中の色は同じ値を使い、章が変わっても対応を変えません。読者が色を手がかりに追えるようにするためです。</p>
+</section>
+
+<section id="s4">
+<h2><span class="num">4</span>図が崩れていないかを機械で確かめる</h2>
+<p class="lead">図が組み上がると、機械が寸法を検査します。エラーもワーニングも0でなければ、その資料は先へ進めません。</p>
+
+<figure>
+<svg viewBox="0 0 700 248" width="700" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="700" height="248" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', 'Noto Sans CJK JP', 'IPAPGothic', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', system-ui, sans-serif; }
+  </style>
+  <defs>
+    <marker id="arrow-orange-f4" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrow-green-f4" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#22c55e"/>
+    </marker>
+    <marker id="arrow-red-f4" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#ef4444"/>
+    </marker>
+  </defs>
+
+  <!-- ===== 1. dashed grouping box: x=21..679, y=112..226 ===== -->
+  <rect x="21" y="112" width="658" height="114" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6,4"/>
+  <text x="31" y="126" font-size="11" fill="#64748b">検査の結果</text>
+
+  <!-- ===== 2. connectors ===== -->
+  <!-- box1 right=211 -> box2 left=239 (row centre y=49) -->
+  <path d="M216,49 L 228,49" fill="none" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arrow-green-f4)"/>
+  <!-- box2 right=423 -> box3 left=451 -->
+  <path d="M428,49 L 440,49" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrow-orange-f4)"/>
+  <!-- box3 bottom=76 (cx=565) -> 合格 top=138 : straight down -->
+  <path d="M565,81 L 565,127" fill="none" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arrow-green-f4)"/>
+  <!-- box3 bottom=76 (x=505) -> 指摘 top=138 (cx=331) : C curve into a 14px vertical tail so the tip points straight down -->
+  <path d="M505,81 C 505,112 331,101 331,113 L 331,127" fill="none" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrow-red-f4)"/>
+
+  <!-- ===== 3. boxes and text ===== -->
+  <!-- box1: x=21 y=22 w=190 h=54 right=211 bottom=76 cx=116 -->
+  <rect x="21" y="22" width="190" height="54" rx="6" fill="#d1fae5" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="116" y="44.2" font-size="12" fill="#166534" text-anchor="middle">1枚HTML</text>
+  <text x="116" y="62.2" font-size="12" fill="#166534" text-anchor="middle">図は SVG で埋め込み済み</text>
+
+  <!-- box2: x=239 y=22 w=184 h=54 right=423 cx=331 -->
+  <rect x="239" y="22" width="184" height="54" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="331" y="44.2" font-size="12" fill="#b45309" text-anchor="middle">図を切り出す</text>
+  <text x="331" y="62.2" font-size="12" fill="#b45309" text-anchor="middle">lint-inline-svg.py</text>
+
+  <!-- box3: x=451 y=22 w=228 h=54 right=679 cx=565 -->
+  <rect x="451" y="22" width="228" height="54" rx="6" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
+  <text x="565" y="44.2" font-size="12" fill="#9d174d" text-anchor="middle">svg-lint で検査</text>
+  <text x="565" y="62.2" font-size="12" fill="#9d174d" text-anchor="middle">外部スキル svg-diagram 同梱</text>
+
+  <!-- 指摘つきで差し戻し: x=215 y=138 w=232 h=54 right=447 bottom=192 cx=331 -->
+  <rect x="215" y="138" width="232" height="54" rx="6" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
+  <text x="331" y="160.2" font-size="12" fill="#9d174d" text-anchor="middle">指摘つきで差し戻し</text>
+  <text x="331" y="178.2" font-size="12" fill="#9d174d" text-anchor="middle">actual → expected の修正値つき</text>
+
+  <!-- 合格: x=476 y=138 w=178 h=54 right=654 bottom=192 cx=565 -->
+  <rect x="476" y="138" width="178" height="54" rx="6" fill="#d1fae5" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="565" y="160.2" font-size="12" fill="#166534" text-anchor="middle">合格</text>
+  <text x="565" y="178.2" font-size="12" fill="#166534" text-anchor="middle">エラー 0・ワーニング 0</text>
+  <text x="565" y="210" font-size="10" fill="#166534" text-anchor="middle">→ 検品・納品へ</text>
+
+  <!-- ===== 4. loop-back line (topmost) ===== -->
+  <!-- 指摘 left=215 (start 210,165) -> box1 bottom cx=116 (end 116,87); cp2.x = end.x, cp2.y > end.y (tip points up) -->
+  <path d="M210,165 C 165,165 116,170 116,87" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrow-red-f4)"/>
+  <text x="150" y="192" font-size="10" fill="#9d174d" text-anchor="middle">HTML を直して再実行</text>
+</svg>
+<figcaption>図4　lint ゲートの合否。エラー0・ワーニング0だけが通過し、指摘は修正値つきで戻る</figcaption>
+</figure>
+
+<p><span class="c-lint">lint ゲート</span>は<span class="c-zukai">zukai-onepager</span>の6番目の段階で、組み上がった<span class="c-html">1枚HTML</span>の中の図をまとめて検査します。</p>
+<span class="gloss"><strong>lint</strong>：書かれたものを機械的に読み、決まりごとに反していないか指摘する検査。指摘は明確な違反である「エラー」と、推奨から外れている「ワーニング」に分かれます。</span>
+
+<p>検査の中身そのものは、外部のスキルが持っています。</p>
+<span class="gloss"><strong>svg-diagram</strong>：図の描き方の決まりごと（箱の高さ、文字の縦位置、矢印の余白など）と、それを検査するツール <strong>svg-lint</strong> を提供する外部スキル。zukai-onepager はこれを前提にしており、入っていないと lint ゲートは動かずに止まります。</span>
+
+<p>指摘には「実際の値 → あるべき値」が付きます。そのまま直して再実行し、指摘が消えるまで繰り返します。ワーニングを「推奨にすぎないから」と残すことはしません。</p>
+
+<h3>なぜ人の目ではなく機械なのか</h3>
+<p>理由は枚数と細かさです。1つの資料に図は6枚前後入り、1枚の図には数十個の箱と矢印があります。矢印の先端が箱から5ピクセル離れているか、文字の縦位置が箱の中心から規定どおりずれているか——これを全部人が見るのは現実的ではありません。機械は何度でも同じ精度で見ます。</p>
+
+<div class="verdict">
+  <div class="t">合格の線は1本</div>
+  <p>エラー0・ワーニング0。ここを通らない図は、そのあとの納品物にも入りません。</p>
+</div>
+</section>
+
+<section id="s5">
+<h2><span class="num">5</span>Word・PDF・Google ドキュメントに変える</h2>
+<p class="lead">1枚HTML をもとに、配布用の3つの形を作ります。図を描き直すことはありません。</p>
+
+<figure>
+<svg viewBox="0 0 760 289" width="760" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="289" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', 'Noto Sans CJK JP', 'IPAPGothic', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', system-ui, sans-serif; }
+  </style>
+  <defs>
+    <marker id="arrow-f5" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#64748b"/>
+    </marker>
+    <marker id="arrow-green-f5" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#22c55e"/>
+    </marker>
+    <marker id="arrow-purple-f5" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#a855f7"/>
+    </marker>
+  </defs>
+
+  <!-- layer 1: dashed grouping frames -->
+  <!-- html-to-deliverable: x=204..538, y=23..266 (inner boxes 218..524, 48..251; pad 14/14/25/15) -->
+  <rect x="204" y="23" width="334" height="243" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6,4"/>
+  <text x="214" y="37" font-size="11" fill="#64748b">html-to-deliverable</text>
+  <!-- deliverables: x=558..738, y=32..248 (inner boxes 572..724, 57..233) -->
+  <rect x="558" y="32" width="180" height="216" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6,4"/>
+  <text x="568" y="46" font-size="11" fill="#64748b">HTML から派生する納品物</text>
+
+  <!-- layer 2: connectors -->
+  <!-- fan-out from the source HTML (right edge 146, centre y 144) to each lane's first box (left edge 218) -->
+  <path d="M151,144 C 180,144 180,75 207,75" fill="none" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arrow-green-f5)"/>
+  <path d="M151,144 C 180,144 180,215 207,215" fill="none" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arrow-green-f5)"/>
+  <!-- inside each lane: 363+5 -> 388-11 -->
+  <path d="M368,75 L 377,75" fill="none" stroke="#a855f7" stroke-width="1.5" marker-end="url(#arrow-purple-f5)"/>
+  <path d="M368,215 L 377,215" fill="none" stroke="#a855f7" stroke-width="1.5" marker-end="url(#arrow-purple-f5)"/>
+  <!-- lane -> deliverable: 524+5 -> 572-11 -->
+  <path d="M529,75 L 561,75" fill="none" stroke="#a855f7" stroke-width="1.5" marker-end="url(#arrow-purple-f5)"/>
+  <path d="M529,215 L 561,215" fill="none" stroke="#a855f7" stroke-width="1.5" marker-end="url(#arrow-purple-f5)"/>
+  <!-- Word -> Google ドキュメント: 93+5 -> 118-11 -->
+  <path d="M648,98 L 648,107" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-f5)"/>
+
+  <!-- layer 3: boxes and text -->
+  <rect x="22" y="126" width="124" height="36" rx="6" fill="#d1fae5" stroke="#22c55e"/>
+  <text x="84" y="148" font-size="12" fill="#166534" text-anchor="middle">1枚HTML（正本）</text>
+
+  <rect x="218" y="48" width="145" height="54" rx="6" fill="#f3e8ff" stroke="#a855f7"/>
+  <text x="290.5" y="70" font-size="12" fill="#6b21a8" text-anchor="middle">図を画像化</text>
+  <text x="290.5" y="88" font-size="10" fill="#6b21a8" text-anchor="middle">Chrome で SVG → PNG</text>
+
+  <rect x="388" y="48" width="136" height="54" rx="6" fill="#f3e8ff" stroke="#a855f7"/>
+  <text x="456" y="70" font-size="12" fill="#6b21a8" text-anchor="middle">docx に組む</text>
+  <text x="456" y="88" font-size="10" fill="#6b21a8" text-anchor="middle">html2docx.py</text>
+
+  <rect x="218" y="179" width="145" height="72" rx="6" fill="#f3e8ff" stroke="#a855f7"/>
+  <text x="290.5" y="202" font-size="12" fill="#6b21a8" text-anchor="middle">印刷用CSSを当てる</text>
+  <text x="290.5" y="220" font-size="10" fill="#6b21a8" text-anchor="middle">@media print で</text>
+  <text x="290.5" y="235" font-size="10" fill="#6b21a8" text-anchor="middle">版面を整える</text>
+
+  <rect x="388" y="179" width="136" height="72" rx="6" fill="#f3e8ff" stroke="#a855f7"/>
+  <text x="456" y="202" font-size="12" fill="#6b21a8" text-anchor="middle">印刷して PDF</text>
+  <text x="456" y="220" font-size="10" fill="#6b21a8" text-anchor="middle">html2pdf.sh</text>
+  <text x="456" y="235" font-size="10" fill="#6b21a8" text-anchor="middle">（Chrome の印刷機能）</text>
+
+  <rect x="572" y="57" width="152" height="36" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="648" y="79" font-size="12" fill="#1e293b" text-anchor="middle">Word（docx）</text>
+
+  <rect x="572" y="118" width="152" height="54" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="648" y="140" font-size="12" fill="#1e293b" text-anchor="middle">Google ドキュメント</text>
+  <text x="648" y="158" font-size="10" fill="#64748b" text-anchor="middle">docx を変換アップロード</text>
+
+  <rect x="572" y="197" width="152" height="36" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="648" y="219" font-size="12" fill="#1e293b" text-anchor="middle">PDF</text>
+</svg>
+<figcaption>図5　1枚HTMLから3つの納品形式が派生する経路。Google ドキュメントは docx を経由する</figcaption>
+</figure>
+
+<p><span class="c-deliver">html-to-deliverable</span>は、出来上がった<span class="c-html">1枚HTML</span>を受け取り、納品用に清書する係です。経路は3つあります。</p>
+
+<div class="cards">
+  <div class="card" style="border-left:4px solid var(--deliver)">
+    <div class="t">Word（docx）</div>
+    <p>図を Chrome で表示させて画像に変換し、本文とともに docx ファイルへ組み直します。章ごとに改ページされ、見出しや表もそのまま移ります。</p>
+  </div>
+  <div class="card" style="border-left:4px solid var(--deliver)">
+    <div class="t">PDF</div>
+    <p>印刷用CSSを当ててから、Chrome の印刷機能で出力します。この資料では用紙A4、余白は上下16mm・左右15mm を指定しています。</p>
+  </div>
+  <div class="card" style="border-left:4px solid var(--deliver)">
+    <div class="t">Google ドキュメント</div>
+    <p>いったん docx を作り、それを Google ドライブへ変換アップロードします。追加の認証設定が必要な経路です。</p>
+  </div>
+</div>
+
+<span class="gloss"><strong>Chrome</strong>：ウェブブラウザ。ここでは人が閲覧するためではなく、画面を出さずに HTML を読み込ませ、図の画像化と PDF 出力をさせる道具として使います。</span>
+<span class="gloss"><strong>印刷用CSS</strong>：画面で読むときの体裁とは別に、紙に出すときの版面（用紙サイズ、余白、どこで改ページするか）を指定した記述。当てずに出すと画面用の版面のまま印刷され、ページ数が無駄に増えます。</span>
+
+<p>どの形式が要るかは、必ず先に確認します。3つ全部を黙って作ることはしません。使わないファイルが保存先に増えるためです。</p>
+
+<p>向かない場面もあります。対面で映すスライドが欲しいときは、本文が落ちてしまうのでこの経路は使いません。Markdown（見出しや箇条書きを記号だけで書く簡易な記法）が正本になっている文書も、そちらから直接変換したほうが早く済みます。</p>
+</section>
+
+<section id="s6">
+<h2><span class="num">6</span>直すときは HTML だけ直す</h2>
+<p class="lead">手を入れる先は 1枚HTML の1箇所だけです。Word や PDF を直接編集することはありません。</p>
+
+<figure>
+<svg viewBox="0 0 640 287" width="640" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="640" height="287" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', 'Noto Sans CJK JP', 'IPAPGothic', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', system-ui, sans-serif; }
+  </style>
+  <defs>
+    <marker id="arrow-blue-f6" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrow-purple-f6" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#a855f7"/>
+    </marker>
+  </defs>
+
+  <!-- connectors: source box right edge=200 / 410, target left edge=230 / 440 -->
+  <path d="M205,154 L 219,154" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrow-blue-f6)"/>
+  <path d="M415,144 C 419,144 423,93 429,93" fill="none" stroke="#a855f7" stroke-width="1.5" marker-end="url(#arrow-purple-f6)"/>
+  <path d="M415,154 L 429,154" fill="none" stroke="#a855f7" stroke-width="1.5" marker-end="url(#arrow-purple-f6)"/>
+  <path d="M415,164 C 419,164 423,215 429,215" fill="none" stroke="#a855f7" stroke-width="1.5" marker-end="url(#arrow-purple-f6)"/>
+
+  <!-- 依頼: x=20, y=127, right edge=200, bottom edge=181 -->
+  <rect x="20" y="127" width="180" height="54" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="110" y="149" font-size="12" fill="#1e40af" text-anchor="middle">直したいところ</text>
+  <text x="110" y="167" font-size="10" fill="#1e40af" text-anchor="middle">文言の修正・図の変更</text>
+
+  <!-- 正本: x=230, y=127, right edge=410, bottom edge=181 -->
+  <rect x="230" y="127" width="180" height="54" rx="6" fill="#d1fae5" stroke="#22c55e" stroke-width="2"/>
+  <text x="320" y="149" font-size="12" fill="#166534" text-anchor="middle">1枚HTML（正本）</text>
+  <text x="320" y="167" font-size="10" fill="#166534" text-anchor="middle">ここだけ直す</text>
+
+  <!-- 派生物の列: x=440, width=180 -->
+  <rect x="440" y="20" width="180" height="30" rx="15" fill="#f3e8ff" stroke="#a855f7"/>
+  <text x="530" y="38.5" font-size="10" fill="#6b21a8" text-anchor="middle">html-to-deliverable を再実行</text>
+  <rect x="440" y="75" width="180" height="36" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="530" y="97" font-size="12" fill="#1e293b" text-anchor="middle">Word（docx）</text>
+  <rect x="440" y="136" width="180" height="36" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="530" y="158" font-size="12" fill="#1e293b" text-anchor="middle">PDF</text>
+  <rect x="440" y="197" width="180" height="36" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="530" y="219" font-size="12" fill="#1e293b" text-anchor="middle">Google ドキュメント</text>
+
+  <!-- やらないこと: x=170, y=211, right edge=410, bottom edge=265 -->
+  <rect x="170" y="211" width="240" height="54" rx="6" fill="#fce7f3" stroke="#ec4899"/>
+  <text x="290" y="233" font-size="12" fill="#9d174d" text-anchor="middle">やらないこと</text>
+  <text x="290" y="251" font-size="10" fill="#9d174d" text-anchor="middle">図を描き直す・Word や PDF を直接編集する</text>
+</svg>
+<figcaption>図6　正本は1枚HTMLひとつ。派生物は再実行で作り直すので、直接手を入れない</figcaption>
+</figure>
+
+<p><span class="c-html">1枚HTML</span>が正本で、Word・PDF・Google ドキュメントは派生物です。</p>
+<span class="gloss"><strong>正本と派生物</strong>：正本は、内容を直すときに手を入れる唯一のファイル。派生物は、正本から機械的に何度でも作り直せる複製です。</span>
+
+<p>誤字を見つけたときも、図の矢印を1本描き替えたいときも、直すのは HTML です。直したら<span class="c-deliver">html-to-deliverable</span>をもう一度実行すれば、指定した形式の納品物がすべて作り直され、3つの間で内容がずれることがありません。</p>
+
+<p>逆に、やらないことが2つあります。1つは作図のやり直しです。図は HTML の中にあり、変換のたびに画像化されるので、描き直す必要がありません。もう1つは Word を開いての直接編集です。その修正は HTML に残らないため、次の再実行で消えます。</p>
+
+<div class="verdict">
+  <div class="t">一箇所を直せば全部に届く</div>
+  <p>この一方通行を守っている限り、「どれが最新版か」を人が管理する必要はなくなります。</p>
+</div>
+</section>
+
+<section id="s7">
+<h2><span class="num">7</span>用語集</h2>
+<p class="lead">本文に出てきた用語をまとめます。読み返すときの索引としてお使いください。</p>
+
+<table>
+<tr><th>用語</th><th>意味</th></tr>
+<tr><td>Claude Code</td><td>文章で書いた指示を受け取り、調べ物やファイルの作成といった作業を代行するツール。もともと開発者向けに作られたもので、手元のパソコンやブラウザ上で動く。</td></tr>
+<tr><td>スキル</td><td>「こういう依頼を受けたら、この手順で進める」と書いてある手順書。該当する依頼が来たときにだけ読み込まれる。</td></tr>
+<tr><td>プラグイン</td><td>関連するスキルをまとめた詰め合わせ。1回の導入操作で、中のスキルがすべて使えるようになる。explainer-kit はこれにあたる。</td></tr>
+<tr><td>1枚HTML</td><td>本文・表・図をすべて1つのファイルに収めた資料。ブラウザで開くだけで読め、他のファイルを必要としない。この仕組みでの正本。</td></tr>
+<tr><td>インラインSVG</td><td>図を画像ファイルとして外に置かず、線と文字の指定として HTML の中に直接書き込んだもの。拡大しても粗くならず、寸法を機械で検査できる。</td></tr>
+<tr><td>lint（lint ゲート）</td><td>書かれたものを機械的に読み、決まりごとに反していないか指摘する検査。zukai-onepager では図の検査に使い、エラー0・ワーニング0を合格の条件とする関門にしている。</td></tr>
+<tr><td>svg-diagram / svg-lint</td><td>図の描き方の決まりごとを定める外部スキルと、それに従っているかを検査する同梱ツール。zukai-onepager はこれを前提にしており、入っていないと lint ゲートが動かない。</td></tr>
+<tr><td>サブエージェント</td><td>本体とは別に立てられる作業担当。指示を渡すと、その1件だけを引き受けて結果を返す。図のように独立した成果物を並行して進めるために使う。</td></tr>
+<tr><td>正本と派生物</td><td>正本は、内容を直すときに手を入れる唯一のファイル。派生物は正本から機械的に作り直せる複製で、直接編集しない。</td></tr>
+<tr><td>docx</td><td>Word の標準的なファイル形式。Google ドキュメントへ移すときも、いったんこの形を経由する。</td></tr>
+<tr><td>印刷用CSS</td><td>紙に出すときの版面（用紙サイズ、余白、改ページの位置）を指定した記述。当てずに PDF 化すると画面用の版面のまま出て、ページ数が膨らむ。</td></tr>
+<tr><td>Google ドキュメントへの変換アップロード</td><td>docx ファイルを Google ドライブへ送る際、Google ドキュメント形式に変換しながら保存する操作。ブラウザ上でそのまま編集・共有できる状態になる。</td></tr>
+<tr><td>Chrome</td><td>ウェブブラウザ。この仕組みでは、画面を出さずに HTML を読み込ませ、図の画像化と PDF 出力をさせる道具として使う。</td></tr>
+<tr><td>Markdown</td><td>見出しや箇条書きを記号だけで書く簡易な記法。これが正本の文書は、この仕組みを通さず直接変換したほうが早い。</td></tr>
+</table>
+</section>
+
+<section id="s8">
+<h2><span class="num">8</span>使い始めるには</h2>
+<p class="lead">導入は2手です。Claude Code の入力欄に、次の行をそのまま打ち込みます。</p>
+
+<pre>/plugin marketplace add shngmsw/explainer-kit
+/plugin install explainer-kit@explainer-kit</pre>
+
+<p>あわせて、図の検査に使う外部スキル svg-diagram を入れます。こちらは端末（コマンドを打ち込む画面）で実行します。</p>
+
+<pre>npx skills add bybit-exchange/svg-diagram -g</pre>
+
+<p>あとは Claude Code に「この仕組みを、詳しくない人にもわかるように図解して」と頼むだけです。配布用の形が要るときは、「この資料を Word にして」と続けます。</p>
+</section>
+
+<div class="foot">explainer-kit の説明資料 ／ 2026年9月</div>
+
+</div>
+</body>
+</html>
