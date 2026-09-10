@@ -9,6 +9,53 @@
 クライアントの窓口、着任したばかりの管理職あたりです。前提知識は無いが読解力はある、
 という相手に向けて書きます。噛み砕くのは内容であって、言葉づかいではありません。
 
+## どんなものができるか
+
+サンプルとして、explainer-kit 自身を explainer-kit で説明した資料を同梱しています。
+ファイルは `docs/sample/explainer-kit-onepager.html`（ダウンロードしてブラウザで開くと読めます）。
+本文の書き方（用語の即開きと用語集、章ごとの図解、登場要素ごとの色）から、図の lint、
+Word / PDF への変換まで、すべてこのプラグインの手順で作ったものです。
+
+### 1枚HTML（zukai-onepager の出力）
+
+![表紙と目次](docs/images/sample-html-cover.png)
+
+章ごとに「言いたいこと1つ」と図解1枚を置き、専門語は使った場所で開きます。
+
+![第1章。見出し・図解・用語ボックス](docs/images/sample-html-section.png)
+
+### 図解（インラインSVG）
+
+図はすべて HTML に直接埋め込んだ SVG です。外部スキル svg-diagram の作図規約で描き、
+同梱の lint（`scripts/lint-inline-svg.py`）をエラー0・ワーニング0で通しています。
+登場要素（依頼・zukai-onepager・1枚HTML・html-to-deliverable・lint ゲート）には
+1色ずつ割り当て、本文と図で同じ色を使います。
+
+![サンプルの図解6枚](docs/images/sample-figures.png)
+
+### Word / PDF（html-to-deliverable の出力）
+
+同じ HTML から `html2docx.py` と `html2pdf.sh` で作った Word と PDF の同じ章です。
+図は Chrome で画像化して埋め込まれ、章ごとに改ページされます。
+
+![Word と PDF の同じページ](docs/images/sample-deliverables.png)
+
+Word のフォント指定は游ゴシック・游明朝です。上のプレビューはそれらが無い環境で描画したため
+Noto フォントで代替表示しています。
+
+### 自分で再生成する
+
+```sh
+# 図の検査（要 svg-diagram）
+python3 skills/zukai-onepager/scripts/lint-inline-svg.py docs/sample/explainer-kit-onepager.html
+
+# Word / PDF に変換
+python3 skills/html-to-deliverable/scripts/html2docx.py docs/sample/explainer-kit-onepager.html -o explainer-kit-onepager.docx
+skills/html-to-deliverable/scripts/html2pdf.sh docs/sample/explainer-kit-onepager.html explainer-kit-onepager.pdf
+```
+
+HTML を直して再実行すれば、Word / PDF も作り直されます。
+
 ## 収録スキル
 
 | スキル | 用途 |
