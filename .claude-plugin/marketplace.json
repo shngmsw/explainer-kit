@@ -1,0 +1,13 @@
+{
+  "name": "explainer-kit",
+  "owner": {
+    "name": "shngmsw"
+  },
+  "plugins": [
+    {
+      "name": "explainer-kit",
+      "source": ".",
+      "description": "その分野に詳しくない読者向けの説明資料を、図解つき1枚HTMLで作り、Word / PDF / Google ドキュメントに変換するスキル集"
+    }
+  ]
+}
